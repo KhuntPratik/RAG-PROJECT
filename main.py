@@ -1,0 +1,23 @@
+from langchain_mistralai import ChatMistralAI
+from langchain_community.document_loaders import TextLoader
+from langchain_core.prompts import ChatPromptTemplate
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+
+data = TextLoader(r"E:\Gen Ai\RAG PROJECT\document loader\notes.txt")
+
+docs = data.load()
+
+template = ChatPromptTemplate.from_messages([("system", "You are a summarize teat."),("human", "{data}")])  
+
+llm = ChatMistralAI(model = "mistral-small-2506")
+
+prompt = template.format_prompt(data = docs)
+
+result = llm.invoke(prompt)
+
+print(result.content)
